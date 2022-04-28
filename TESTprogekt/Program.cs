@@ -11,85 +11,103 @@ namespace TESTprogekt
     {
         static void Main(string[] args)
         {
+            string mainDir = @"C:\Test";
+            string oldPath = @"C:\Test\Test1";
+            string newPath = @"C:\Test\Test3\Test1";
+            string fileName = "file.txt";
+            string filePath = @"C:\Test\file.txt";
+            string info;
 
-            MoveDirectory();
+            // MoveDirectory(oldPath, newPath);
+           info =  CpFiles(oldPath, newPath);
+            //info = DelFile(filePath);
+            Console.WriteLine(info);
+
+            Console.ReadKey(true);
         }    
          
         /// <summary>
         /// Перемещение каталога
         /// </summary>
-
-        public static void MoveDirectory()
+        /// <param name="oldPath"></param>
+        /// <param name="newPath"></param>
+        /// <returns></returns>
+        public static string MoveDirectory(string oldPath, string newPath)
         {
-
-            string oldPath = @"C:\Users\Desktop\repo\";
-            string newPath = @"C:\SomeDir";
+            string message;
             DirectoryInfo dirInfo = new DirectoryInfo(oldPath);
-            if (dirInfo.Exists && !Directory.Exists(newPath))
+            if (dirInfo.Exists && Directory.Exists(newPath))
             {
                 dirInfo.MoveTo(newPath);
+                message = "Каталог перемещён";
             }
+            else
+                message = "Каталог не существует";
 
-            Console.ReadKey();
-
+            return message;
         }
 
         /// <summary>
-        /// Удаление каталога.
+        /// Удаление каталога
         /// </summary>
-        public static void DelDirectory()
+        /// <param name="dirName"></param>
+        /// <returns></returns>
+        public static string DelDirectory(string dirName)
         {
-            string dirName = @"C:\SomeDir";
-
+            string message;
             DirectoryInfo dirInfo = new DirectoryInfo(dirName);
             if (dirInfo.Exists)
             {
                 dirInfo.Delete(true);
-                Console.WriteLine("Каталог удален");
+                message ="Каталог удален";
             }
             else
-            {
-                Console.WriteLine("Каталог не существует");
-            }
+            
+            message = "Каталог не существует";
+
+            return message;
         } 
         
         /// <summary>
-        /// Копирование файлов
+        /// Копирование файлa
         /// </summary>
         /// <param name="path">Отсюда</param>
         /// <param name="nPath">Сюда</param>
-       public static void CpFiles(string path, string nPath)
+       public static string CpFiles(string path, string nPath)
        {
-           FileInfo fileInf = new FileInfo(path);
+            string message;
+            FileInfo fileInf = new FileInfo(path);
           if (fileInf.Exists)
           {
-            File.Copy(path, nPath, true);
+              File.Copy(path, nPath, true);
+              message = "Файл скопирован";
           }
           else
-          {
-             Console.WriteLine("Файл не существует");
-          }
-            
+               message = "Файл не существует";
+
+            return message;
        }
 
         /// <summary>
-        /// Удаление файлов
+        /// Удаление файла
         /// </summary>
-        public static void DelFiles()
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string DelFile(string filePath)
         {
-            if (File.Exists(@"C:\Users\Desktop\repo\"))
-                
-            {
-                try
-                {
-                    File.Delete(@"C:\Users\Desktop\repo\file.txt");
-                }
-                catch(System.IO.IOException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
+            string message;
             
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                message = "Файл успешно удален!";
             }
+            else
+                message = "Файл не существует";
+
+            return message;
+
         }
+        
     }
 }
